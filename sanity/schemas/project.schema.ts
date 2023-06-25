@@ -30,9 +30,34 @@ const project = {
       name: 'content',
       title: 'Content',
       type: 'array',
-      of: [{ type: 'block' }, { type: 'image' }, { type: 'code' }],
+      of: [
+        { type: 'block' },
+        {
+          type: 'image', // custom image inside rich text editor
+          fields: [
+            {
+              type: 'text',
+              name: 'alt',
+              title: 'alternative text',
+              description:
+                "Some of your visitors cannot see images, be they blind, color-blind, low-sighted; alternative text is of great help for those people that can rely on it to have a good idea of what's on your page.",
+            },
+          ],
+        },
+        // { type: 'code' },
+      ],
     },
   ],
 };
+
+export interface ImageShape {
+  _type: string;
+  alt: string;
+  _key: string;
+  asset: {
+    _type: string;
+    _ref: string;
+  };
+}
 
 export default project;

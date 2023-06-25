@@ -1,28 +1,30 @@
 import clientConfig from '@/sanity/client-config';
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { ImageShape } from '@/sanity/schemas/project.schema';
+import { PortableTextTypeComponentProps } from '@portabletext/react';
 import { createClient } from 'next-sanity';
-import { useNextSanityImage } from 'next-sanity-image';
+import { UseNextSanityImageProps, useNextSanityImage } from 'next-sanity-image';
 import Image from 'next/image';
+import React from 'react';
 
 const sanityClient = createClient(clientConfig);
 
-import React from 'react';
-
 type Props = {
-  asset: SanityImageSource | null;
+  imageData: PortableTextTypeComponentProps<ImageShape>;
 };
 
-export default function SanityImage({ asset }: any) {
-  //   console.log(`Asset: ${asset?.toString()}`);
-  const imageProps: any = useNextSanityImage(sanityClient, asset);
-  //   console.log(`Image Props: ${imageProps}`);
-
-  if (imageProps === null) return null;
+export default async function SanityImage({ imageData }: Props) {
+  const imageProps: UseNextSanityImageProps | null = useNextSanityImage(
+    sanityClient,
+    imageData.value.asset
+  );
+  if (imageProps === null) return <></>;
   return (
     <Image
-      {...imageProps}
-      alt=''
-      fill
+      src={imageProps.src}
+      width={imageProps.width}
+      height={imageProps.height}
+      style={{ width: '100%', height: 'auto' }}
+      alt={imageData.value.alt}
       sizes='(max-width: 800px) 100vw, 800px'
     />
   );
