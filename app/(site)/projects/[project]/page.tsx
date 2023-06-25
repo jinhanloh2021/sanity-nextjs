@@ -1,5 +1,7 @@
+import SanityImage from '@/app/components/sanityImage';
 import { getProject } from '@/sanity/sanity.utils';
 import { PortableText } from '@portabletext/react';
+import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 import Image from 'next/image';
 
 type Props = {
@@ -7,6 +9,11 @@ type Props = {
 };
 
 export default async function Project({ params }: Props) {
+  const customPortableTextComponents = {
+    types: {
+      image: (props: any) => <Image {...props} />,
+    },
+  };
   const slug = params.project;
   const project = await getProject(slug);
   return (
@@ -27,7 +34,10 @@ export default async function Project({ params }: Props) {
       </header>
 
       <div className='text-lg text-gray-700 mt-5'>
-        <PortableText value={project.content} />
+        <PortableText
+          value={project.content}
+          // components={customPortableTextComponents}
+        />
       </div>
 
       <Image

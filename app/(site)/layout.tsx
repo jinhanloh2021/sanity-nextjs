@@ -17,7 +17,6 @@ export default async function RootLayout({
 }) {
   // Get all pages
   const pages = await getPages();
-  console.log(pages);
   return (
     <html lang='en'>
       <body className='max-w-3xl mx-auto py-10'>
