@@ -45,6 +45,8 @@ const project = {
           ],
         },
         {
+          name: 'code',
+          title: 'Code',
           type: 'code',
           options: {
             language: 'javascript',
@@ -57,8 +59,8 @@ const project = {
               { title: 'HTML', value: 'html' },
               { title: 'CSS', value: 'css' },
             ],
+            withFilename: true,
           },
-          withFilename: true,
         },
       ],
     },
