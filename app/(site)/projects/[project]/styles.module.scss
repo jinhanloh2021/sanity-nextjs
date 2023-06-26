@@ -1,0 +1,11 @@
+.portable_text {
+  @apply text-lg text-gray-700;
+}
+
+.portable_text code {
+  @apply font-mono text-base;
+}
+
+.portable_text img {
+  @apply lg:min-h-[20vh] min-h-[30vh] object-cover bg-no-repeat bg-center overflow-hidden select-none lg:my-8 my-4 mx-auto;
+}

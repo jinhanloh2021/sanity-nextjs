@@ -6,6 +6,7 @@ import {
   PortableTextTypeComponentProps,
 } from '@portabletext/react';
 import Image from 'next/image';
+import styles from './styles.module.scss';
 
 type Props = {
   params: { project: string };
@@ -14,17 +15,22 @@ type Props = {
 export default async function Project({ params }: Props) {
   const customPortableTextComponents = {
     types: {
-      image: async (props: PortableTextTypeComponentProps<ImageShape>) => {
+      image: (props: PortableTextTypeComponentProps<ImageShape>) => {
         return <SanityImage imageData={props} />;
+      },
+      code: (props: any) => {
+        console.log(JSON.stringify(props));
+        return <code>{JSON.stringify(props)}</code>;
       },
     },
   };
   const slug = params.project;
   const project = await getProject(slug);
+  console.log(`project: ${JSON.stringify(project, null, 2)}`);
   return (
     <div>
-      <header className='flex items-center justify-between'>
-        <h1 className='bg-gradient-to-r from-orange-400 via-red-500 to-purple-600 bg-clip-text text-transparent text-5xl drop-shadow font-extrabold'>
+      <header className='flex items-center justify-between mb-10'>
+        <h1 className='bg-gradient-to-r from-orange-400 via-red-500 to-purple-600 bg-clip-text text-transparent text-5xl drop-shadow font-extrabold leading-[64px]'>
           {project.name}
         </h1>
         <a
@@ -38,7 +44,7 @@ export default async function Project({ params }: Props) {
         </a>
       </header>
 
-      <div className='text-lg text-gray-700 mt-5'>
+      <div className={styles.portable_text}>
         <PortableText
           value={project.content}
           components={customPortableTextComponents}

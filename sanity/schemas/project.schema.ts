@@ -44,7 +44,22 @@ const project = {
             },
           ],
         },
-        // { type: 'code' },
+        {
+          type: 'code',
+          options: {
+            language: 'javascript',
+            languageAlternatives: [
+              { title: 'Javascript', value: 'javascript' },
+              { title: 'JSX', value: 'jsx' },
+              { title: 'Typescript', value: 'typescript' },
+              { title: 'TSX', value: 'tsx' },
+              { title: 'Python', value: 'python' },
+              { title: 'HTML', value: 'html' },
+              { title: 'CSS', value: 'css' },
+            ],
+          },
+          withFilename: true,
+        },
       ],
     },
   ],
