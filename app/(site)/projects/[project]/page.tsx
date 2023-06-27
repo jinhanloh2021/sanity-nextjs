@@ -1,45 +1,37 @@
 import SanityImage from '@/app/components/sanityImage';
 import { getProject } from '@/sanity/sanity.utils';
-import { ImageShape } from '@/sanity/schemas/project.schema';
+import { CodeShape, ImageShape } from '@/types/Project';
 import {
   PortableText,
   PortableTextTypeComponentProps,
 } from '@portabletext/react';
 import Image from 'next/image';
 import styles from './styles.module.scss';
-import { CodeBlock } from '@/app/components/codeBlock';
+import CodeBlock from '@/app/components/codeBlock';
 
 type Props = {
   params: { project: string };
 };
 
+const customPortableTextComponents = {
+  types: {
+    image: (props: PortableTextTypeComponentProps<ImageShape>) => {
+      return <SanityImage imageData={props} />;
+    },
+    code: (props: PortableTextTypeComponentProps<CodeShape>) => {
+      return (
+        <CodeBlock language={props.value.language}>
+          {props.value.code}
+        </CodeBlock>
+      );
+    },
+  },
+};
+
 export default async function Project({ params }: Props) {
-  const customPortableTextComponents = {
-    types: {
-      image: (props: PortableTextTypeComponentProps<ImageShape>) => {
-        return <SanityImage imageData={props} />;
-      },
-      code: (props: any) => {
-        // console.log(`Props: ${JSON.stringify(props)}`);
-        return <code>{JSON.stringify(props)}</code>;
-      },
-    },
-  };
-  /*
-  {
-    "value":{
-      "filename":"index.tsx",
-      "_type":"code",
-      "language":"tsx"
-      "_key":"4a0bfff020ce",
-      "code":"export default Lists = () => {\n const myNums = [1,2,3,4,5];\n return (\n <ul>\n {myNums.map((n) => <li>{n}</li>)}\n <ul/>\n )\n}\n\n\n",
-    },
-    "isInline":false,
-    "index":9
-  }
-  */
   const slug = params.project;
   const project = await getProject(slug);
+
   return (
     <div>
       <header className='flex items-center justify-between mb-10'>
@@ -56,17 +48,12 @@ export default async function Project({ params }: Props) {
           View Project
         </a>
       </header>
-      <CodeBlock language='javascript'>
-        {"console.log('Hello world');"}
-      </CodeBlock>
-
       <div className={styles.portable_text}>
         <PortableText
           value={project.content}
           components={customPortableTextComponents}
         />
       </div>
-
       <Image
         src={project.image}
         alt={project.name}

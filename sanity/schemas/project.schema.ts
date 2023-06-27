@@ -67,14 +67,4 @@ const project = {
   ],
 };
 
-export interface ImageShape {
-  _type: string;
-  alt: string;
-  _key: string;
-  asset: {
-    _type: string;
-    _ref: string;
-  };
-}
-
 export default project;
